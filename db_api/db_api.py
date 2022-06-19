@@ -23,8 +23,6 @@ def change_delete_status(order_ids):
         connection = engine.connect()
         metadata = MetaData(engine)
         entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
-        sel_query = db.select(entries_table)
-        connection.execute(sel_query).fetchall()
         query = db.update(entries_table).values(deleted=True).where(entries_table.c.order_id in order_ids)
         connection.execute(query)
         connection.close()
@@ -39,8 +37,6 @@ def change_tg_notice_status():
     connection = engine.connect()
     metadata = MetaData(engine)
     entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
-    sel_query = db.select(entries_table)
-    connection.execute(sel_query).fetchall()
     query = db.update(entries_table).values(tg_noticed=True). \
         filter(func.date(entries_table.c.delivery_date) < date.today()).filter(entries_table.c.tg_noticed == False).\
         returning(entries_table.c.order_id, entries_table.c.cost_dollars, entries_table.c.delivery_date, entries_table.c.deleted)
@@ -63,7 +59,7 @@ def create_or_update_entries(entries):
     all_order_ids = [entry[0] for entry in entries]
     # select changed entries query
     select_to_delete_entries_query = db.select(entries_table.c.order_id).filter(entries_table.c.deleted == False).filter(entries_table.c.order_id not in all_order_ids)
-    # get changed entries
+    # get entries which not in current Google Sheet state
     to_delete_entries_ids = connection.execute(select_to_delete_entries_query).fetchall()
     # change delete_status of entries
     change_delete_status(to_delete_entries_ids)
