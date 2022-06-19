@@ -1,0 +1,87 @@
+version: "3"
+
+services:
+
+  database:
+    # Official Postgres image from DockerHub (we use the last version)
+    image: "postgres:latest"
+
+    # By default, a Postgres database is running on the 5432 port.
+    # If we want to access the database from our computer (outside the container),
+    # we must share the port with our computer's port.
+    # The syntax is [port we want on our machine]:[port we want to retrieve in the container]
+    # Note: You are free to change your computer's port,
+    # but take into consideration that it will change the way
+    # you are connecting to your database.
+    ports:
+      - 5432:5432
+
+    environment:
+      POSTGRES_USER: ${user_name} # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: ${password} # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: ${db_name}
+
+    volumes:
+      # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path.
+      # It means that every time the repository is modifying the data inside
+      # of `/var/lib/postgresql/data/`, automatically the change will appear in `db-data`.
+      # You don't need to create the `db-data` folder. Docker Compose will do it for you.
+      - ./db-data/:/var/lib/postgresql/data/
+
+    restart: always
+
+
+  update-db:
+
+    build:
+      context: .
+      dockerfile: update_db.dockerfile
+
+    environment:
+      db_name: ${db_name}
+      user_name: ${user_name}
+      password: ${password}
+      host: ${host}
+      port: ${port}
+
+    command: python /app/update_db.py
+
+    restart: always
+
+    depends_on:
+      - database
+
+  tg-bot:
+
+    build:
+      context: .
+      dockerfile: tg_bot.dockerfile
+
+    environment:
+      token: ${token}
+
+    command: python /app/tg_bot.py
+
+    restart: always
+
+  send-tg-notice:
+
+    build:
+      context: .
+      dockerfile: send_tg_notice.dockerfile
+
+    environment:
+      chat_id: ${chat_id}
+      token: ${token}
+      db_name: ${db_name}
+      user_name: ${user_name}
+      password: ${password}
+      host: ${host}
+      port: ${port}
+
+    command: python /app/send_tg_notice.py
+
+    restart: always
+
+    depends_on:
+      - update-db
