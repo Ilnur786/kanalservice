@@ -1,8 +1,6 @@
 import sqlalchemy as db
 from sqlalchemy import Table, Column, Integer, Date, Float, Boolean, MetaData
-from sqlalchemy_utils import database_exists, create_database
 import os
-
 
 db_name = os.getenv('db_name')
 user_name = os.getenv('user_name')

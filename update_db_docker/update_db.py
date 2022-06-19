@@ -1,6 +1,6 @@
 from db_api.db_api import create_or_update_entries
 from df_api.df_api import get_df
-from db_api.create_db import create_table_if_not_exist
+from db_api.create_table import create_table_if_not_exist
 import time
 from datetime import datetime
 
