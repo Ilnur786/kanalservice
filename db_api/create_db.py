@@ -11,12 +11,11 @@ host = os.getenv('host')
 port = os.getenv('port')
 
 
-# def check_db_exist():
-#     engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
-#     return engine.dialect.has_table(engine, 'entries')
-
-
 def create_table_if_not_exist():
+    """
+    Create "entries" table if doesn't exist.
+    :return: None
+    """
     engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
     if not db.inspect(engine).has_table("entries"):
         metadata = MetaData(engine)

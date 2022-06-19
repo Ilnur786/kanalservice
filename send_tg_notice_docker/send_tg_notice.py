@@ -8,6 +8,11 @@ chat_id = os.getenv('chat_id')
 
 
 def send_telegram(text: str):
+    """
+    Send entries to specified chat_id.
+    :param text: obviously given entry.
+    :return: None.
+    """
     url = "https://api.telegram.org/bot"
     channel_id = chat_id
     url += token
