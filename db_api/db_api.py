@@ -57,9 +57,9 @@ def create_or_update_entries(entries):
     entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
     # get all entries order_ids
     all_order_ids = [entry[0] for entry in entries]
-    # select changed entries query
-    select_to_delete_entries_query = db.select(entries_table.c.order_id).filter(entries_table.c.deleted == False).filter(entries_table.c.order_id not in all_order_ids)
     # get entries which not in current Google Sheet state
+    select_to_delete_entries_query = db.select(entries_table.c.order_id).filter(entries_table.c.deleted == False).filter(entries_table.c.order_id not in all_order_ids)
+    # execute query above and fetch them
     to_delete_entries_ids = connection.execute(select_to_delete_entries_query).fetchall()
     # change delete_status of entries
     change_delete_status(to_delete_entries_ids)
