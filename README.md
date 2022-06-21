@@ -2,7 +2,7 @@
 
 ## Сервис мониторит изменения в Google Sheet
 
-Ссылка на Google Sheet: https://docs.google.com/spreadsheets/d/1f-qZEX1k_3nj5cahOzntYAnvO4ignbyesVO7yuBdv_g/edit#gid=0
+Ссылка на Google Sheet: https://docs.google.com/spreadsheets/d/1PsVLEBmCdrp9R8KSIqGC8eD252DIa26IYSOnatMkAUU/edit#gid=0
 
 Настройка и запуск:
 * Клонируйте репозиторий на локальную машину git clone https://github.com/Ilnur786/kanalservice.git
