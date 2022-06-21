@@ -2,6 +2,8 @@
 
 ## Сервис мониторит изменения в Google Sheet
 
+Ссылка на Google Sheet: https://docs.google.com/spreadsheets/d/1f-qZEX1k_3nj5cahOzntYAnvO4ignbyesVO7yuBdv_g/edit#gid=0
+
 Настройка и запуск:
 * Клонируйте репозиторий на локальную машину git clone https://github.com/Ilnur786/kanalservice.git
 * Заполните поле chat_id в конфиг файле config/.env.prod. Чтобы получить chat_id, запустите бота @username_to_id_bot.
