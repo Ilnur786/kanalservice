@@ -38,8 +38,8 @@ def main():
 if __name__ == '__main__':
     # give a time to db-driver create and set database
     time.sleep(10)
-    main()
     while True:
-        time.sleep(60)
         main()
+        time.sleep(60)
+
 
