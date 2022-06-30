@@ -40,6 +40,9 @@ services:
 
     restart: always
 
+    volumes:
+      - /etc/localtime:/etc/localtime
+
     depends_on:
       - database
 
@@ -68,6 +71,9 @@ services:
     command: python /app/send_tg_notice.py
 
     restart: always
+
+    volumes:
+      - /etc/localtime:/etc/localtime
 
     depends_on:
       - update-db
