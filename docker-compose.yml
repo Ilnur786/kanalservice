@@ -9,9 +9,6 @@ services:
     env_file:
       - config/.env.prod
 
-    environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
-
     # By default, a Postgres database is running on the 5432 port.
     # If we want to access the database from our computer (outside the container),
     # we must share the port with our computer's port.
@@ -20,7 +17,7 @@ services:
     # but take into consideration that it will change the way
     # you are connecting to your database.
     ports:
-      - ${POSTGRES_PORT}:5432
+      - "${POSTGRES_PORT}:5432"
 
     volumes:
       # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path.
