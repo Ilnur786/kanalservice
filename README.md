@@ -6,7 +6,7 @@
 
 Настройка и запуск:
 * Клонируйте репозиторий на локальную машину: `git clone https://github.com/Ilnur786/kanalservice.git`
-* Заполните поле CHAT_ID в конфиг файле config/.env.prod. Чтобы получить chat_id, запустите бота 
+* Заполните поле CHAT_ID в конфиг файле **config/.env.prod**. Чтобы получить chat_id, запустите бота 
 **[@username_to_id_bot](https://t.me/username_to_id_bot)**.
 * Бот присылающий уведомления доступен по адресу 
 **[@kanalserviceNoticeBot](https://t.me/kanalserviceNoticeBot)**.
