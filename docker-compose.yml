@@ -16,8 +16,6 @@ services:
     # Note: You are free to change your computer's port,
     # but take into consideration that it will change the way
     # you are connecting to your database.
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
 
     volumes:
       # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path.
