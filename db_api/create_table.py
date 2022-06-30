@@ -2,11 +2,11 @@ import sqlalchemy as db
 from sqlalchemy import Table, Column, Integer, Date, Float, Boolean, MetaData
 import os
 
-db_name = os.getenv('db_name')
-user_name = os.getenv('user_name')
-password = os.getenv('password')
-host = os.getenv('host')
-port = os.getenv('port')
+db_name = os.getenv('POSTGRES_DB')
+user_name = os.getenv('POSTGRES_USER')
+password = os.getenv('POSTGRES_PASSWORD')
+host = os.getenv('POSTGRES_HOST')
+port = os.getenv('POSTGRES_PORT')
 
 
 def create_table_if_not_exist():

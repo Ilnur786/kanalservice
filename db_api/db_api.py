@@ -5,11 +5,11 @@ from sqlalchemy.dialects.postgresql import insert
 from datetime import date
 from exchange_api.currency_exchange_api import get_exchange_rate, convert_dollars_in_rubles
 
-db_name = os.getenv('db_name')
-user_name = os.getenv('user_name')
-password = os.getenv('password')
-host = os.getenv('host')
-port = os.getenv('port')
+db_name = os.getenv('POSTGRES_DB')
+user_name = os.getenv('POSTGRES_USER')
+password = os.getenv('POSTGRES_PASSWORD')
+host = os.getenv('POSTGRES_HOST')
+port = os.getenv('POSTGRES_PORT')
 
 
 def change_delete_status(order_ids):

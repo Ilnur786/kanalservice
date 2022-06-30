@@ -3,8 +3,8 @@ import requests
 import os
 import time
 
-token = os.getenv('token')
-chat_id = os.getenv('chat_id')
+token = os.getenv('TOKEN')
+chat_id = os.getenv('CHAT_ID')
 
 
 def send_telegram(text: str):
