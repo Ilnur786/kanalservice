@@ -1,10 +1,13 @@
-version: "3"
+version: "3.4"
 
 services:
 
   database:
     # Official Postgres image from DockerHub (we use the last version)
     image: "postgres:latest"
+
+    env_file:
+      - config/.env.prod
 
     # By default, a Postgres database is running on the 5432 port.
     # If we want to access the database from our computer (outside the container),
@@ -13,13 +16,6 @@ services:
     # Note: You are free to change your computer's port,
     # but take into consideration that it will change the way
     # you are connecting to your database.
-    ports:
-      - 5432:5432
-
-    environment:
-      POSTGRES_USER: ${user_name} # The PostgreSQL user (useful to connect to the database)
-      POSTGRES_PASSWORD: ${password} # The PostgreSQL password (useful to connect to the database)
-      POSTGRES_DB: ${db_name}
 
     volumes:
       # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path.
@@ -37,12 +33,8 @@ services:
       context: .
       dockerfile: update_db.dockerfile
 
-    environment:
-      db_name: ${db_name}
-      user_name: ${user_name}
-      password: ${password}
-      host: ${host}
-      port: ${port}
+    env_file:
+          - config/.env.prod
 
     command: python /app/update_db.py
 
@@ -57,8 +49,8 @@ services:
       context: .
       dockerfile: tg_bot.dockerfile
 
-    environment:
-      token: ${token}
+    env_file:
+      - config/.env.prod
 
     command: python /app/tg_bot.py
 
@@ -70,14 +62,8 @@ services:
       context: .
       dockerfile: send_tg_notice.dockerfile
 
-    environment:
-      chat_id: ${chat_id}
-      token: ${token}
-      db_name: ${db_name}
-      user_name: ${user_name}
-      password: ${password}
-      host: ${host}
-      port: ${port}
+    env_file:
+      - config/.env.prod
 
     command: python /app/send_tg_notice.py
 

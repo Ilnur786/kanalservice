@@ -2,9 +2,10 @@ from db_api.db_api import change_tg_notice_status
 import requests
 import os
 import time
+from datetime import datetime
 
-token = os.getenv('token')
-chat_id = os.getenv('chat_id')
+token = os.getenv('TOKEN')
+chat_id = os.getenv('CHAT_ID')
 
 
 def send_telegram(text: str):
@@ -28,18 +29,20 @@ def send_telegram(text: str):
 
 
 def main():
-    entries = change_tg_notice_status()
-    if entries:
-        send_telegram('(номер заказа, стоимость $, срок доставки(год, мес, день), был ли удален из Google Sheet)')
-        for row in entries:
-            send_telegram(str(row))
+    while True:
+        entries = change_tg_notice_status()
+        if entries:
+            send_telegram('(номер заказа, стоимость $, срок доставки(год, мес, день), был ли удален из Google Sheet)')
+            for row in entries:
+                send_telegram(str(row))
+            print('was send notice about out of delivery date orders', datetime.now(), flush=True)
+        time.sleep(60)
 
 
 if __name__ == '__main__':
     # give a time to db-driver create and set database
     time.sleep(10)
-    while True:
-        main()
-        time.sleep(60)
+    main()
+
 
 

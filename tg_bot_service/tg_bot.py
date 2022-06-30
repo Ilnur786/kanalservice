@@ -1,7 +1,7 @@
 import telebot
 import os
 
-token = os.getenv('token')
+token = os.getenv('TOKEN')
 
 bot = telebot.TeleBot(token)
 
