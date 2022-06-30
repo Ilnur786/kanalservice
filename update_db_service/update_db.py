@@ -5,10 +5,9 @@ import time
 from datetime import datetime
 import os
 
-if __name__ == '__main__':
+
+def main():
     sheet_link = os.getenv('GOOGLE_SHEET_LINK')
-    # give a time to db-driver create and set database
-    time.sleep(10)
     # create table if not exist
     create_table_if_not_exist()
     while True:
@@ -21,3 +20,10 @@ if __name__ == '__main__':
         create_or_update_entries(entries=entries)
         print('all records up to date', datetime.now(), flush=True)
         time.sleep(60)
+
+
+if __name__ == '__main__':
+    # give a time to db-driver create and set database
+    time.sleep(10)
+    main()
+
