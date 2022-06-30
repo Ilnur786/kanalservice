@@ -3,38 +3,19 @@ import requests
 import os
 import time
 from datetime import datetime
-
-token = os.getenv('TOKEN')
-chat_id = os.getenv('CHAT_ID')
-
-
-def send_telegram(text: str):
-    """
-    Send entries to specified chat_id.
-    :param text: obviously given entry.
-    :return: None.
-    """
-    url = "https://api.telegram.org/bot"
-    channel_id = chat_id
-    url += token
-    method = url + "/sendMessage"
-
-    r = requests.post(method, data={
-         "chat_id": channel_id,
-         "text": text
-          })
-
-    if r.status_code != 200:
-        raise Exception("post_text error")
+import telebot
 
 
 def main():
+    token = os.getenv('TOKEN')
+    chat_id = os.getenv('CHAT_ID')
+    bot = telebot.TeleBot(token)
     while True:
         entries = change_tg_notice_status()
         if entries:
-            send_telegram('(номер заказа, стоимость $, срок доставки(год, мес, день), был ли удален из Google Sheet)')
+            bot.send_message(chat_id, '(номер заказа, стоимость $, срок доставки(год, мес, день), был ли удален из Google Sheet)')
             for row in entries:
-                send_telegram(str(row))
+                bot.send_message(chat_id, row)
             print('was send notice about out of delivery date orders', datetime.now(), flush=True)
         time.sleep(60)
 
