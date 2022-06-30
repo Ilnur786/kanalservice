@@ -20,7 +20,7 @@ services:
     # but take into consideration that it will change the way
     # you are connecting to your database.
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${POSTGRES_PORT}:5432
 
     volumes:
       # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path.
