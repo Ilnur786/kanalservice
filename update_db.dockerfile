@@ -8,7 +8,7 @@ COPY df_api /app/df_api
 
 COPY exchange_api /app/exchange_api
 
-COPY update_db_docker /app/
+COPY update_db_service /app/
 
 COPY requirements.txt /app
 

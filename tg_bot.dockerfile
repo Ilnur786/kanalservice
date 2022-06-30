@@ -2,7 +2,7 @@ FROM python:3.8
 
 WORKDIR /app
 
-COPY tg_bot_docker /app/
+COPY tg_bot_service /app/
 
 RUN python -m pip install --upgrade pip
 
