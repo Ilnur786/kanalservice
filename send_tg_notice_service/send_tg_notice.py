@@ -14,9 +14,7 @@ def main():
         entries = change_tg_notice_status()
         if entries:
             bot.send_message(chat_id, '(номер заказа, стоимость $, срок доставки(год, мес, день), был ли удален из Google Sheet)')
-            result = ''
-            for row in entries:
-                result += str(row) + '\n'
+            result = '\n'.join(list(map(lambda x: str(x), entries)))
             bot.send_message(chat_id, result)
             print('was send notice about out of delivery date orders', datetime.now(), flush=True)
         time.sleep(60)
