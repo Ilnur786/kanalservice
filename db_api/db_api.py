@@ -90,13 +90,14 @@ def create_or_update_entries(entries):
 
 
 def get_data_from_db():
-    # get connection
+    """
+    Return dataframe , which is reflection of current Google Sheet state.
+    :return: pandas.dataframe
+    """
     engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
-    connection = engine.connect()
     metadata = MetaData(engine)
     entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
     query = entries_table.select().filter(entries_table.c.deleted == False)
-    # result = connection.execute(query).fetchall()
     df = pd.read_sql(query, engine, parse_dates={'delivery_date': {'format': '%d-%m-%Y'}})
     return df.sort_values(by=['delivery_date', 'cost_dollars'], ignore_index=True)
 
