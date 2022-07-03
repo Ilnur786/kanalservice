@@ -5,7 +5,7 @@ import pandas as pd
 from sqlalchemy.dialects.postgresql import insert
 from datetime import date
 
-# for web-app develop
+# for development
 # from configparser import ConfigParser
 #
 # conf = ConfigParser()
@@ -31,11 +31,12 @@ def change_delete_status(order_ids):
     :return: None
     """
     if order_ids is not None:
+        order_ids = tuple(i[0] for i in order_ids)
         engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
         connection = engine.connect()
         metadata = MetaData(engine)
         entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
-        query = db.update(entries_table).values(deleted=True).where(entries_table.c.order_id in order_ids)
+        query = db.update(entries_table).values(deleted=True).filter(entries_table.c.order_id.in_(order_ids))
         connection.execute(query)
         connection.close()
 
@@ -71,7 +72,7 @@ def create_or_update_entries(entries):
     # get all entries order_ids
     all_order_ids = [entry[0] for entry in entries]
     # get entries which not in current Google Sheet state
-    select_to_delete_entries_query = db.select(entries_table.c.order_id).filter(entries_table.c.deleted == False).filter(entries_table.c.order_id not in all_order_ids)
+    select_to_delete_entries_query = db.select(entries_table.c.order_id).filter(entries_table.c.deleted.is_(False)).filter(entries_table.c.order_id.not_in(all_order_ids))
     # execute query above and fetch them
     to_delete_entries_ids = connection.execute(select_to_delete_entries_query).fetchall()
     # change delete_status of entries
@@ -97,7 +98,7 @@ def get_data_from_db():
     engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
     metadata = MetaData(engine)
     entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
-    query = entries_table.select().filter(entries_table.c.deleted == False)
+    query = entries_table.select().filter(entries_table.c.deleted.is_(False))
     df = pd.read_sql(query, engine, parse_dates={'delivery_date': {'format': '%d-%m-%Y'}})
     return df.sort_values(by=['delivery_date', 'cost_dollars'], ignore_index=True)
 
