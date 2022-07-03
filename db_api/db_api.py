@@ -1,9 +1,21 @@
 import sqlalchemy as db
 from sqlalchemy import MetaData, func
 import os
+import pandas as pd
 from sqlalchemy.dialects.postgresql import insert
 from datetime import date
-from exchange_api.currency_exchange_api import get_exchange_rate, convert_dollars_in_rubles
+
+# for web-app develop
+# from configparser import ConfigParser
+#
+# conf = ConfigParser()
+# conf.read('../config/config.ini')
+# os.environ['POSTGRES_DB'] = conf['DB']['POSTGRES_DB']
+# os.environ['POSTGRES_USER'] = conf['DB']['POSTGRES_USER']
+# os.environ['POSTGRES_PASSWORD'] = conf['DB']['POSTGRES_PASSWORD']
+# os.environ['POSTGRES_HOST'] = conf['DB']['POSTGRES_HOST']
+# os.environ['POSTGRES_PORT'] = conf['DB']['POSTGRES_PORT']
+
 
 db_name = os.getenv('POSTGRES_DB')
 user_name = os.getenv('POSTGRES_USER')
@@ -50,6 +62,7 @@ def create_or_update_entries(entries):
     Receive entries which could be added or updated.
     :return: None
     """
+    from exchange_api.currency_exchange_api import get_exchange_rate, convert_dollars_in_rubles
     # get connection
     engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
     connection = engine.connect()
@@ -75,4 +88,16 @@ def create_or_update_entries(entries):
                                                                                         delivery_date=delivery_date, deleted=False))
         connection.execute(update_if_conflict_query)
 
+
+def get_data_from_db():
+    """
+    Return dataframe , which is reflection of current Google Sheet state.
+    :return: pandas.dataframe
+    """
+    engine = db.create_engine(f'postgresql://{user_name}:{password}@{host}:{port}/{db_name}')
+    metadata = MetaData(engine)
+    entries_table = db.Table('entries', metadata, autoload=True, autoload_with=engine)
+    query = entries_table.select().filter(entries_table.c.deleted == False)
+    df = pd.read_sql(query, engine, parse_dates={'delivery_date': {'format': '%d-%m-%Y'}})
+    return df.sort_values(by=['delivery_date', 'cost_dollars'], ignore_index=True)
 
