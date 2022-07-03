@@ -5,17 +5,6 @@ import pandas as pd
 from sqlalchemy.dialects.postgresql import insert
 from datetime import date
 
-# for development
-# from configparser import ConfigParser
-#
-# conf = ConfigParser()
-# conf.read('../config/config.ini')
-# os.environ['POSTGRES_DB'] = conf['DB']['POSTGRES_DB']
-# os.environ['POSTGRES_USER'] = conf['DB']['POSTGRES_USER']
-# os.environ['POSTGRES_PASSWORD'] = conf['DB']['POSTGRES_PASSWORD']
-# os.environ['POSTGRES_HOST'] = conf['DB']['POSTGRES_HOST']
-# os.environ['POSTGRES_PORT'] = conf['DB']['POSTGRES_PORT']
-
 
 db_name = os.getenv('POSTGRES_DB')
 user_name = os.getenv('POSTGRES_USER')

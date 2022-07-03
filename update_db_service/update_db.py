@@ -5,13 +5,6 @@ import time
 from datetime import datetime
 import os
 
-from configparser import ConfigParser
-
-# development
-# conf = ConfigParser()
-# conf.read('../config/config.ini')
-# os.environ['GOOGLE_SHEET_LINK'] = conf['DB']['GOOGLE_SHEET_LINK']
-
 
 def main():
     sheet_link = os.getenv('GOOGLE_SHEET_LINK')
