@@ -77,3 +77,22 @@ services:
 
     depends_on:
       - update-db
+
+  web-app:
+
+    build:
+      context: .
+      dockerfile: web_app.dockerfile
+
+    command: python /app/web_app.py
+
+    env_file:
+      - config/.env.prod
+
+    ports:
+      - "8000:8000"
+
+    restart: always
+
+    depends_on:
+      - update-db
