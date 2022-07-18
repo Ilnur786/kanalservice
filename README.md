@@ -24,6 +24,6 @@
 - `docker-compose rm -f`
 - `sudo docker-compose up --build`
 
-Проект разрабатывался и тестировался на WSL2 (Ubuntu 20.04).
+Проект разрабатывался и тестировался на WSL2 (Ubuntu 20.04, python 3.8.0).
 
 
