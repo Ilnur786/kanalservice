@@ -34,7 +34,7 @@ app.layout = html.Div(id='parent', className="container-fluid",
 									  dcc.Graph(id='my-graph'),
 									  dcc.Interval(
 										  id='interval-component',
-										  interval=10 * 1000,  # in milliseconds
+										  interval=30 * 1000,  # in milliseconds
 										  n_intervals=0,
 										  # max_intervals=0
 									  ),
@@ -64,9 +64,10 @@ def update_graph(n):
 	df['tg_noticed'] = df['tg_noticed'].apply(lambda x: str(x))
 	df['deleted'] = df['deleted'].apply(lambda x: str(x))
 	last_25 = df.iloc[-25:]
+	cost_summing = df.cost_dollars.sum()
 	return {
 		'data': [{'x': last_25.delivery_date, 'y': last_25.cost_dollars}],
-		'layout': {'uirevision': df, 'margin': {'l': 30,'r': 20,'b': 30,'t': 20}}}, f'{df.cost_dollars.sum()} $', generate_table(df)
+		'layout': {'uirevision': cost_summing, 'margin': {'l': 30,'r': 20,'b': 30,'t': 20}}}, f'{cost_summing} $', generate_table(df)
 
 
 def generate_table(dataframe):
