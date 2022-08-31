@@ -36,7 +36,7 @@ app.layout = html.Div(id='parent', className="container-fluid",
 										  id='interval-component',
 										  interval=10 * 1000,  # in milliseconds
 										  n_intervals=0,
-										  max_intervals=0
+										  # max_intervals=0
 									  ),
 								  ]),
 							  html.Div(id='right', className='col-6', children=[
@@ -65,8 +65,8 @@ def update_graph(n):
 	df['deleted'] = df['deleted'].apply(lambda x: str(x))
 	last_25 = df.iloc[-25:]
 	return {
-		'data': [{'x': last_25.delivery_date,'y': last_25.cost_dollars}],
-		'layout': {'margin': {'l': 30,'r': 20,'b': 30,'t': 20}}}, f'{df.cost_dollars.sum()} $', generate_table(df)
+		'data': [{'x': last_25.delivery_date, 'y': last_25.cost_dollars}],
+		'layout': {'uirevision': df, 'margin': {'l': 30,'r': 20,'b': 30,'t': 20}}}, f'{df.cost_dollars.sum()} $', generate_table(df)
 
 
 def generate_table(dataframe):
